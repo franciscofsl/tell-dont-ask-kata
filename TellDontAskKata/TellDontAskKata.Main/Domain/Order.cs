@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TellDontAskKata.Main.UseCase;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -10,5 +11,20 @@ namespace TellDontAskKata.Main.Domain
         public decimal Tax { get; set; }
         public OrderStatus Status { get; set; }
         public int Id { get; set; }
+
+        public void Ship()
+        {
+            if (Status is OrderStatus.Created or OrderStatus.Rejected)
+            {
+                throw new OrderCannotBeShippedException();
+            }
+
+            if (Status is OrderStatus.Shipped)
+            {
+                throw new OrderCannotBeShippedTwiceException();
+            }
+
+            Status = OrderStatus.Shipped;
+        }
     }
 }

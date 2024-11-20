@@ -9,6 +9,7 @@ namespace TellDontAskKata.Tests.Doubles
 
         public void Ship(Order order)
         {
+            order.Ship();
             _shippedOrder = order;
         }
 
@@ -16,7 +17,5 @@ namespace TellDontAskKata.Tests.Doubles
         {
             return _shippedOrder;
         }
-
-
     }
 }
