@@ -26,5 +26,27 @@ namespace TellDontAskKata.Main.Domain
 
             Status = OrderStatus.Shipped;
         }
+
+        public void ChangeApprove(bool approvedState)
+        {
+            if (Status is OrderStatus.Shipped)
+            {
+                throw new ShippedOrdersCannotBeChangedException();
+            }
+
+            if (approvedState && Status is OrderStatus.Rejected)
+            {
+                throw new RejectedOrderCannotBeApprovedException();
+            }
+
+            if (!approvedState && Status is OrderStatus.Approved)
+            {
+                throw new ApprovedOrderCannotBeRejectedException();
+            }
+
+            Status = approvedState
+                ? OrderStatus.Approved
+                : OrderStatus.Rejected;
+        }
     }
 }
